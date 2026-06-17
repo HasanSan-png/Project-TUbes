@@ -15,10 +15,47 @@ void CekSound() {
     Serial.println(F("GALACTIC ARMORY TERMINAL ONLINE!"));
 }
 
-void tambahData(char* input_id, char* input_nama, char* input_lokasi, uint8_t input_stok, uint8_t input_status, uint8_t input_pic) {
+// void tambahData(char* input_id, char* input_nama, char* input_lokasi, char* input_pic_owner, uint8_t input_stok, uint8_t input_status) {
+//     if (free_head == NULL_INDEKS)
+//     {
+//         Serial.println(F("GAGAL: Memori Penuh!")); 
+//         return;
+//     }
+
+//     uint8_t indeks_baru = free_head;
+//     free_head = gudang[indeks_baru].next_indeks;
+//     strncpy(gudang[indeks_baru].id, input_id, sizeof(gudang[indeks_baru].id));
+//     strncpy(gudang[indeks_baru].nama, input_nama, sizeof(gudang[indeks_baru].nama));
+//     strncpy(gudang[indeks_baru].lokasi, input_lokasi, sizeof(gudang[indeks_baru].lokasi));
+
+//     gudang[indeks_baru].stok = input_stok;
+//     gudang[indeks_baru].status = input_status;
+//     gudang[indeks_baru].pic = input_pic;
+
+//     gudang[indeks_baru].next_indeks = head_indeks; 
+//     head_indeks = indeks_baru;
+
+//     Serial.print(F("SUKSES: Data berhasil ditambah ke Laci "));
+//     Serial.println(indeks_baru);
+// }
+
+void tambahData(char* input_id, char* input_nama, char* input_lokasi, char* input_pic_owner, uint8_t input_stok, uint8_t input_status) {
+    if (input_status == 0) {
+        uint8_t indeks_cek = head_indeks;
+        while (indeks_cek != NULL_INDEKS) {
+            // cek kalau idnya sama
+            if (strcmp(gudang[indeks_cek].id, input_id) == 0 && gudang[indeks_cek].status == 0) {
+                Serial.println(F("\n[ERROR] GAGAL: ID Senjata sudah terdaftar di Arsenal!"));
+                Serial.println(F("Gunakan fitur Update Stok jika ingin menambah kuantitas."));
+                return; //keluar function
+            }
+            indeks_cek = gudang[indeks_cek].next_indeks;
+        }
+    }
+    
     if (free_head == NULL_INDEKS)
     {
-        Serial.println(F("GAGAL: Memori Penuh!")); 
+        Serial.println(F("GAGAL: Memori Penuh!"));
         return;
     }
 
@@ -27,12 +64,11 @@ void tambahData(char* input_id, char* input_nama, char* input_lokasi, uint8_t in
     strncpy(gudang[indeks_baru].id, input_id, sizeof(gudang[indeks_baru].id));
     strncpy(gudang[indeks_baru].nama, input_nama, sizeof(gudang[indeks_baru].nama));
     strncpy(gudang[indeks_baru].lokasi, input_lokasi, sizeof(gudang[indeks_baru].lokasi));
+    strncpy(gudang[indeks_baru].pic_owner, input_pic_owner, sizeof(gudang[indeks_baru].pic_owner)); //tambahin picnya
 
     gudang[indeks_baru].stok = input_stok;
     gudang[indeks_baru].status = input_status;
-    gudang[indeks_baru].pic = input_pic;
-
-    gudang[indeks_baru].next_indeks = head_indeks; 
+    gudang[indeks_baru].next_indeks = head_indeks;
     head_indeks = indeks_baru;
 
     Serial.print(F("SUKSES: Data berhasil ditambah ke Laci "));
@@ -94,7 +130,7 @@ void hapusdata(uint8_t indeks_target) {
     }
 }
 
-void pinjambarang(char* input_id, uint8_t jumlah_pinjam, uint8_t pic_peminjam) { 
+void pinjambarang(char* input_id, uint8_t jumlah_pinjam, char* pic_peminjam) { 
     uint8_t indeks = head_indeks;
     while (indeks != NULL_INDEKS) {
         
@@ -104,8 +140,7 @@ void pinjambarang(char* input_id, uint8_t jumlah_pinjam, uint8_t pic_peminjam) {
 
                 gudang[indeks].stok = gudang[indeks].stok - jumlah_pinjam;
                 
-                tambahData(input_id, gudang[indeks].nama, gudang[indeks].lokasi, jumlah_pinjam, 1, pic_peminjam);
-                
+                tambahData(input_id, gudang[indeks].nama, gudang[indeks].lokasi, pic_peminjam, jumlah_pinjam, 1);                
                 if (gudang[indeks].stok == 0)
                 {
                     hapusdata(indeks);
@@ -157,13 +192,50 @@ void kembalikanBarang(char* input_id, uint8_t jumlah_kembali) {
     }
     else
     {
-        tambahData(input_id, gudang[indeks_pinjam].nama, gudang[indeks_pinjam].lokasi, jumlah_kembali, 0, gudang[indeks_pinjam].pic);
+        tambahData(input_id, gudang[indeks_pinjam].nama, gudang[indeks_pinjam].lokasi, "-", jumlah_kembali, 0);
     }
     
     if (gudang[indeks_pinjam].stok == 0) {
         hapusdata(indeks_pinjam);
     }    
     Serial.println(F("SUKSES: Item berhasil dikembalikan ke markas!"));
+}
+
+void printall() { //ini buat kek overall gimana aja gak yang dilist atu2
+    uint8_t indeks = head_indeks;
+
+    uint8_t total_jenis_item = 0;
+    uint32_t total_kuantitas_stok = 0;
+    uint8_t item_tersedia = 0;
+    uint8_t item_dipinjam = 0;
+    uint8_t item_rusak = 0;
+
+    while (indeks != NULL_INDEKS) {
+        total_jenis_item++;
+        total_kuantitas_stok += gudang[indeks].stok;
+        
+        if (gudang[indeks].status == 0) {
+            item_tersedia++;
+        } 
+        else if (gudang[indeks].status == 1) {
+            item_dipinjam++;
+        } 
+        else if (gudang[indeks].status == 2) {
+            item_rusak++;
+        }
+        
+        indeks = gudang[indeks].next_indeks;
+    }
+
+    Serial.println(F("     :: HOLONET SUMMARY REPORT ::   "));
+    Serial.println(F("------------------------------------------------"));
+    Serial.print(F(" Total Variasi Jenis Item :")); Serial.print(total_jenis_item); Serial.println(F(" Jenis"));
+    Serial.print(F(" Total Kuantitas Senjata  :")); Serial.print(total_kuantitas_stok); Serial.println(F(" Unit"));
+    Serial.println(F("------------------------------------------"));
+    Serial.print(F("Kategori Tersedia: ")); Serial.println(item_tersedia); 
+    Serial.print(F("Kategori Dipinjam: ")); Serial.println(item_dipinjam); 
+    Serial.print(F("Kategori Rusak: ")); Serial.println(item_rusak);
+    Serial.println(F("------------------------------------------------"));
 }
 
 /**READ() { // ganti sistem pemilihan
@@ -236,8 +308,8 @@ void printoutput() {
             Serial.println(F("Tersedia"));
         } 
         else if (gudang[indeks].status == 1) {
-            Serial.print(F("Dipinjam (Trooper/Jedi ID: "));
-            Serial.print(gudang[indeks].pic);
+            Serial.print(F("Dipinjam OWNER: "));
+            Serial.print(gudang[indeks].pic_owner);
             Serial.println(")");
         } 
         else {
@@ -308,7 +380,7 @@ void laporRusak(char* input_id, uint8_t jumlah_rusak) {
         if (strcmp(gudang[indeks].id, input_id) == 0 && gudang[indeks].status == 0) {
             if (gudang[indeks].stok >= jumlah_rusak) {
                 gudang[indeks].stok = gudang[indeks].stok - jumlah_rusak;
-                tambahData(input_id, gudang[indeks].nama, gudang[indeks].lokasi, jumlah_rusak, 2, gudang[indeks].pic);
+                tambahData(input_id, gudang[indeks].nama, gudang[indeks].lokasi, "-", jumlah_rusak, 2);
                 if (gudang[indeks].stok == 0) {
                     hapusdata(indeks);
                     Serial.println(F("[SUKSES] Data item rusak berhasil dipisahkan dari stok utama."));
@@ -347,7 +419,24 @@ void mainmenu() {
     Serial.println(menu_utama);
 
     if (menu_utama == '1') {
-        printoutput();
+        while (Serial.available() > 0) { Serial.read(); }
+        
+        Serial.println(F("\n---PILIH MODE-----"));
+        Serial.println(F("1. Tampilkan Seluruh Detail Data"));
+        Serial.println(F("2. Tampilkan Summary Inventaris"));
+        Serial.print(F("Pilih opsi (1/2): "));
+
+        while (Serial.available() == 0) { }
+        String opsi_diag = Serial.readStringUntil('\n');
+        opsi_diag.trim();
+        char opsi = opsi_diag.charAt(0);
+        Serial.println(opsi);
+
+        if (opsi == '2') {
+            printall(); 
+        } else {
+            printoutput();   
+        }
         balik();
     }
     else if (menu_utama == '2') {
@@ -390,15 +479,17 @@ void mainmenu() {
 
             if (aksi == '1') {
                 while (Serial.available() > 0) { Serial.read(); }
-                Serial.print(F("Ketik nomor ID Trooper / Jedi peminjam (Angka 1-255): "));
+                Serial.print(F("Ketik nama Trooper / Jedi peminjam (Maks 5 karakter, Ex: RUDI): ")); //jadiin character
                 while (Serial.available() == 0) { }
                 String pic_str = Serial.readStringUntil('\n');
                 pic_str.trim();
                 if (pic_str.length() == 0) return;
-                int pic_peminjam = pic_str.toInt();
-                Serial.println(pic_peminjam);
+                Serial.println(pic_str);
+
+                char buf_peminjam[6];
+                pic_str.toCharArray(buf_peminjam, sizeof(buf_peminjam));
                 
-                pinjambarang(id_barang, jumlah, pic_peminjam);
+                pinjambarang(id_barang, jumlah, buf_peminjam);
             }
             else if (aksi == '2') {
                 kembalikanBarang(id_barang, jumlah);
@@ -449,7 +540,7 @@ void mainmenu() {
         nama_baru.toCharArray(buf_nama, sizeof(buf_nama));
         lokasi_baru.toCharArray(buf_lokasi, sizeof(buf_lokasi));
 
-        tambahData(buf_id, buf_nama, buf_lokasi, stok_baru, 0, 0);
+        tambahData(buf_id, buf_nama, buf_lokasi, "-", stok_baru, 0);
         balik();
     }
     else {

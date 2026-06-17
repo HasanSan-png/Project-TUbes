@@ -8,29 +8,29 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "c:/Users/DSM/Documents/PlatformIO/Projects/TUBES_PMP/Project TUbes/include",
-                "c:/Users/DSM/Documents/PlatformIO/Projects/TUBES_PMP/Project TUbes/src",
-                "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                "C:/Users/DSM/.platformio/packages/framework-arduino-avr/cores/arduino",
-                "C:/Users/DSM/.platformio/packages/framework-arduino-avr/variants/standard",
-                "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/LENOVO/Project-TUbes/include",
+                "C:/Users/LENOVO/Project-TUbes/src",
+                "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/variants/standard",
+                "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/Users/DSM/Documents/PlatformIO/Projects/TUBES_PMP/Project TUbes/include",
-                    "c:/Users/DSM/Documents/PlatformIO/Projects/TUBES_PMP/Project TUbes/src",
-                    "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                    "C:/Users/DSM/.platformio/packages/framework-arduino-avr/cores/arduino",
-                    "C:/Users/DSM/.platformio/packages/framework-arduino-avr/variants/standard",
-                    "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "C:/Users/DSM/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/LENOVO/Project-TUbes/include",
+                    "C:/Users/LENOVO/Project-TUbes/src",
+                    "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "C:/Users/LENOVO/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },
@@ -45,7 +45,7 @@
             ],
             "cStandard": "gnu11",
             "cppStandard": "gnu++11",
-            "compilerPath": "C:/Users/DSM/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerPath": "C:/Users/LENOVO/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
             "compilerArgs": [
                 "-mmcu=atmega328p",
                 ""
