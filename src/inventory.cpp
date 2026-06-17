@@ -1,3 +1,4 @@
+
 #include "invetaris.h"
 
 struct DataBarang gudang[MAX_ITEMS];
@@ -45,7 +46,7 @@ void tambahData(char* input_id, char* input_nama, char* input_lokasi, char* inpu
         while (indeks_cek != NULL_INDEKS) {
             // cek kalau idnya sama
             if (strcmp(gudang[indeks_cek].id, input_id) == 0 && gudang[indeks_cek].status == 0) {
-                Serial.println(F("\n[ERROR] GAGAL: ID Senjata sudah terdaftar di Arsenal!"));
+                Serial.println(F("\n[ERROR] GAGAL: ID sudah terdaftar di Arsenal!"));
                 Serial.println(F("Gunakan fitur Update Stok jika ingin menambah kuantitas."));
                 return; //keluar function
             }
@@ -229,8 +230,8 @@ void printall() { //ini buat kek overall gimana aja gak yang dilist atu2
 
     Serial.println(F("     :: HOLONET SUMMARY REPORT ::   "));
     Serial.println(F("------------------------------------------------"));
-    Serial.print(F(" Total Variasi Jenis Item :")); Serial.print(total_jenis_item); Serial.println(F(" Jenis"));
-    Serial.print(F(" Total Kuantitas Senjata  :")); Serial.print(total_kuantitas_stok); Serial.println(F(" Unit"));
+    Serial.print(F(" Total Variasi Jenis Item:")); Serial.print(total_jenis_item); Serial.println(F(" Jenis"));
+    Serial.print(F(" Total Kuantitas:")); Serial.print(total_kuantitas_stok); Serial.println(F(" Unit"));
     Serial.println(F("------------------------------------------"));
     Serial.print(F("Kategori Tersedia: ")); Serial.println(item_tersedia); 
     Serial.print(F("Kategori Dipinjam: ")); Serial.println(item_dipinjam); 
