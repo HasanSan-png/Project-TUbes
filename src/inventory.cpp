@@ -3,7 +3,7 @@
 struct DataBarang gudang[MAX_ITEMS];
 uint8_t head_indeks= NULL_INDEKS;
 uint8_t free_head = 0; 
-
+// test git
 void CekSound() {
     Serial.begin(9600);
     Serial.println(F("BOOTING OVERRIDE..."));
