@@ -16,7 +16,6 @@ struct DataBarang {
   char pic_owner[6]; //owner sama pic digabung biar memorinya ga abis
   uint8_t stok;       // Jumlah barang (0-255)
   uint8_t status;     // 0:Tersedia, 1:Dipinjam, 2:Rusak, 
-  uint8_t pic;        // 0:Admin, 1:Asisten A, dll
   uint8_t next_indeks; 
 };
 
