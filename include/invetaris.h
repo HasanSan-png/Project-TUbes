@@ -6,7 +6,7 @@
 #include <EEPROM.h>
 #include <string.h>
 
-#define MAX_ITEMS 2
+#define MAX_ITEMS 45
 #define NULL_INDEKS 255    
 
 struct DataBarang {
